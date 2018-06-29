@@ -13,11 +13,14 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        {/*Anything in braces gets evaluated as JavaScript, including this comment!*/}
-        <Example/> {/*This self-closing tag is how we tell React to put an "Example" component here.*/}
+        {/*Anything in braces gets evaluated as JavaScript, including this comment!
+        <Example/> This self-closing tag is how we tell React to put an "Example" component here.
         <Movie title={"Star Wars"} genre={"Sci-Fi"}/>
         <Movie title={"Rampart"} genre={"Clusterfuck"}/>
-        <Movie title={"Coco"} genre={"Disney"}/>
+        <Movie title={"Coco"} genre={"Disney"}/>*/}
+        <Comment>Rampart was such a failure.</Comment>
+        <Comment>Mimi is the best!</Comment>
+        <Comment>I'm going to Portugal!</Comment>
       </div>
     );
   }
@@ -51,6 +54,27 @@ class Movie extends Component {
       </div>
     );
   }
+}
+
+class Comment extends Component {
+  render(){
+    return(
+      <div className={"commentContainer"}>
+        {this.props.children}
+        <button onClick={this.edit}>Edit</button>
+        <button onClick={this.remove}>Remove</button>
+      </div>
+    );
+  }
+
+  edit(){
+    alert("You are now editing the comment");
+  }
+
+  remove(e){
+    e.target.parentElement.remove();
+  }
+
 }
 
 export default App;
