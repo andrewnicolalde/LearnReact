@@ -15,11 +15,17 @@ class App extends Component {
         </p>
         {/*Anything in braces gets evaluated as JavaScript, including this comment!*/}
         <Example/> {/*This self-closing tag is how we tell React to put an "Example" component here.*/}
+        <Movie title={"Star Wars"} genre={"Sci-Fi"}/>
+        <Movie title={"Rampart"} genre={"Clusterfuck"}/>
+        <Movie title={"Coco"} genre={"Disney"}/>
       </div>
     );
   }
 }
 
+{/*
+This is our first component!
+*/}
 class Example extends Component {
   render(){
     return (
@@ -29,7 +35,21 @@ class Example extends Component {
           <li>have one top level tag for each component, including app.</li>
         </ul>
       </div>
-    )
+    );
+  }
+}
+
+{/*
+This is to show us how properties work
+*/}
+class Movie extends Component {
+  render(){
+    return(
+      <div>
+        <h1>Movie name: {this.props.title}</h1>
+        <h1>Genre: {this.props.genre}</h1>
+      </div>
+    );
   }
 }
 
