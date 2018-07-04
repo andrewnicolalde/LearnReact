@@ -28,6 +28,7 @@ class Comment extends Component {
     };
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   render(){
@@ -40,11 +41,11 @@ class Comment extends Component {
 
   renderNormal(){
     return(
-    <div className={"commentContainer"}>
-      {this.props.children}
-      <button onClick={this.edit}>Edit</button>
-      <button onClick={this.remove}>Remove</button>
-    </div>
+      <div className={"commentContainer"}>
+        {this.props.children}
+        <button onClick={this.edit}>Edit</button>
+        <button onClick={this.remove}>Remove</button>
+      </div>
     );
   }
 
@@ -70,16 +71,15 @@ class Comment extends Component {
    */
   save(){
     var usertext = this.refs.userText.value;
-    console.log("New comment: "+ usertext);
+    this.props.updateCommentText(usertext, this.props.index);
     this.setState({editing: false});
   }
 
   /**
-   * This gets called when the user presses the remove button. It deletes the entire commentContainer div.
-   * @param e The actual remove button. We remove the entire section by removing its parent, which is the commentContainer.
+   * This gets called when the user presses the remove button. It removes the comment.
    */
-  remove(e){
-    e.target.parentElement.remove();
+  remove(){
+    this.props.deleteFromBoard(this.props.index);
   }
 
 }
@@ -89,25 +89,63 @@ class Board extends Component{
     super();
     this.state = {
       comments: [
-        "First comment",
-        "Second comment",
-        "Third comment"
       ]
     }
+    this.removeComment = this.removeComment.bind(this);
+    this.updateComment = this.updateComment.bind(this);
+    this.createNewComment = this.createNewComment.bind(this);
+    this.forEachComment = this.forEachComment.bind(this);
   }
 
   render(){
     return(
-      <div className={"boardContainer"}>
-        {
-          this.state.comments.map(function (text, i){
-            return(
-              <Comment key={i}>{text}</Comment>
-            );
-          })
-        }
+      <div>
+        <button onClick={this.createNewComment.bind(null, "Bacon tuna")}>New Note</button>
+        <div className={"boardContainer"}>
+          {
+            this.state.comments.map(this.forEachComment)
+          }
+        </div>
       </div>
     );
+  }
+
+  /**
+   * This is a function called for each comment in the array "comments" in the state of each board.
+   * @param text
+   * @param i
+   * @returns {*}
+   */
+  forEachComment(text, i) {
+    return (
+      <Comment key={i} index={i} updateCommentText={this.updateComment} deleteFromBoard={this.removeComment}>{text}</Comment>
+    );
+  }
+
+  createNewComment(text){
+    var commentArray = this.state.comments;
+    commentArray.push(text);
+    this.setState({
+      comments: commentArray
+    });
+  }
+
+  removeComment(i){
+    console.log("Removing comment " + i);
+    var commentArray = this.state.comments;
+    commentArray.splice(i, 1);
+    this.setState({
+      comments: commentArray
+    });
+  }
+
+  updateComment(newText, i){
+    console.log("Updating comment: " + i);
+    var commentArray = this.state.comments;
+    commentArray[i] = newText;
+    this.setState({
+      comments: commentArray
+    });
   }
 
 }
