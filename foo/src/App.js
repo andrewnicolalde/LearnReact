@@ -27,7 +27,7 @@ class Comment extends Component {
     super();
     this.state = {
       editing: false
-    }
+    };
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
   }
@@ -53,7 +53,7 @@ class Comment extends Component {
   renderEditing(){
     return(
       <div className={"commentContainer"}>
-        <textarea defaultValue={this.props.children}></textarea>
+        <textarea defaultValue={this.props.children} ref={"userText"}></textarea>
         <button onClick={this.save}>Save</button>
       </div>
     );
@@ -71,6 +71,8 @@ class Comment extends Component {
    * piece of text.
    */
   save(){
+    var usertext = this.refs.userText.value;
+    console.log("New comment: "+ usertext);
     this.setState({editing: false});
   }
 
