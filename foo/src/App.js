@@ -13,9 +13,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Comment>Star Wars was once good</Comment>
-        <Comment>Mimi is the best!</Comment>
-        <Comment>I'm going to Portugal!</Comment>
+        <Board/>
       </div>
     );
   }
@@ -82,6 +80,34 @@ class Comment extends Component {
    */
   remove(e){
     e.target.parentElement.remove();
+  }
+
+}
+
+class Board extends Component{
+  constructor(){
+    super();
+    this.state = {
+      comments: [
+        "First comment",
+        "Second comment",
+        "Third comment"
+      ]
+    }
+  }
+
+  render(){
+    return(
+      <div className={"boardContainer"}>
+        {
+          this.state.comments.map(function (text, i){
+            return(
+              <Comment key={i}>{text}</Comment>
+            );
+          })
+        }
+      </div>
+    );
   }
 
 }
